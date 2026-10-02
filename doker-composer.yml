@@ -48,6 +48,24 @@ services:
     networks:
       - laravel-network
 
+  # ✅ NOVO: Serviço do phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: laravel_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db          # Nome do serviço MySQL no docker-compose
+      PMA_PORT: 3306
+      PMA_USER: root        # Usuário padrão para login
+      PMA_PASSWORD: root    # Senha do root definida no serviço 'db'
+      UPLOAD_LIMIT: 300M    # Opcional: aumenta o limite de upload
+    networks:
+      - laravel-network
+    depends_on:
+      - db
+
 networks:
   laravel-network:
     driver: bridge
